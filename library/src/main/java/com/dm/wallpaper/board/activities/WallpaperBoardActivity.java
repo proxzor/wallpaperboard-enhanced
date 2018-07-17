@@ -145,14 +145,33 @@ public abstract class WallpaperBoardActivity extends AppCompatActivity implement
         setContentView(R.layout.activity_wallpaper_board);
         startHandler();
 
-        MobileAds.initialize(this, (getString(R.string.admob_app_id)));
+        MobileAds.initialize(this,
+                "ca-app-pub-8311366951056759~6195918122");
 
-        // Prepare new ad
-        interstitial = new InterstitialAd(getApplicationContext());
-        // Ad unit ID
-        interstitial.setAdUnitId(getString(R.string.admob_interstitial_id));
-        // Load Ad
-        loadInterstitial();
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8311366951056759/2420324645");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+
+            }
+
+            @Override
+            public void onAdOpened() {
+
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+
+            }
+        });
 
         AppUpdater appUpdater = new AppUpdater(this);
         appUpdater.start();
